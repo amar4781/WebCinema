@@ -1,0 +1,187 @@
+﻿@model MovieCreateVM
+
+<div class="row g-3 mb-3">
+    <div class="col-xxl-6 col-xl-12">
+        <div class="row g-3">
+            <div class="col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <div class="row flex-between-end">
+                            <div class="col-auto align-self-center">
+                                <h5 class="mb-0">Add Movie Item</h5>
+                            </div>
+                            <div class="col-auto ms-auto">
+                                <div class="nav nav-pills nav-pills-falcon flex-grow-1" role="tablist">
+                                    <a href="/Admin/Movie" class="btn btn-falcon-danger btn-sm" type="button"><span class="fas fa-angle-double-left" data-fa-transform="shrink-3 down-2"></span><span class="ms-1">Back</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body bg-light">
+                        <form method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="mb-3">
+                                <label class="form-label">Name</label>
+                                <input class="form-control" name="Name" type="text" placeholder="Name" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" name="Description" rows="3" placeholder="Description"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" name="CategoryId">
+                                    <option value="0">Select category movie</option>
+                                    @foreach (var item in Model.Categories)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Cinema</label>
+                                <select class="form-select" name="CinemaId">
+                                    <option value="0">Select cinema movie</option>
+                                    @foreach (var item in Model.Cinemas)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Upload Main Image</label>
+                                <input class="form-control" type="file"  name="MainImg" accept="image/*" onchange="previewMainImage(event)" />
+                            </div>
+
+                            <div class="mb-3" id="mainImagePreviewContainer" style="display:none;">
+                                <label class="form-label">Main Image Preview</label>
+                                <div class="border rounded p-2 text-center" style="max-width:300px;">
+                                    <img id="mainImagePreview" style="max-width:100%; max-height:250px;" />
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Upload Sub Images</label>
+                                <input type="file" name="SubImgs" class="form-control" accept="image/*" onchange="previewSubImages(event)" multiple />
+                            </div>
+
+                            <div class="mb-3" id="subImagesPreviewContainer" style="display:none;">
+                                <label class="form-label">Sub Images Preview</label>
+                                <div id="subImagesPreview"
+                                     class="d-flex flex-wrap gap-2">
+                                </div>
+                            </div>
+
+                            <!-- Date -->
+                            <div class="mb-3">
+                                <label class="form-label">Movie Date</label>
+                                <input class="form-control" name="DateTime" type="date" />
+                            </div>
+
+                            <!-- Price -->
+                            <div class="mb-3">
+                                <label class="form-label">Price</label>
+                                <input class="form-control" type="number" name="Price" placeholder="0.00" step="0.01" min="0.01" />
+                            </div>
+
+                            <!-- Actors -->
+                            <div class="mb-3">
+                                <label class="form-label">Select Actors</label>
+                                <div>
+                                    @foreach (var actor in Model.Actors)
+                                    {
+                                        <div class="form-check">
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   name="ActorIds"
+                                                   value="@actor.Id" />
+                                            <label class="form-check-label">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar avatar-3xl">
+                                                        <img class="rounded-soft" src="~/img/actor_imgs/@actor.Img" alt="" />
+                                                    </div>
+                                                    <div class="ms-2">@actor.Name</div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Status -->
+                            <div class="mb-3">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" name="Status">
+                                    <option value="true">Active</option>
+                                    <option value="false">Not Active</option>
+                                </select>
+                            </div>
+
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Main Image Preview
+        function previewMainImage(event) {
+            const input = event.target;
+            const preview = document.getElementById('mainImagePreview');
+            const container = document.getElementById('mainImagePreviewContainer');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    preview.src = e.target.result;
+                    container.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        // Sub Images Preview (Multiple)
+        function previewSubImages(event) {
+            const container = document.getElementById('subImagesPreviewContainer');
+            const preview = document.getElementById('subImagesPreview');
+
+            preview.innerHTML = "";
+
+            const files = event.target.files;
+            if (files.length === 0) {
+                container.style.display = "none";
+                return;
+            }
+
+            container.style.display = "block";
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.style.width = "120px";
+                    img.style.height = "120px";
+                    img.style.objectFit = "cover";
+                    img.classList.add("rounded", "border");
+
+                    preview.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+    </script>
+
+}

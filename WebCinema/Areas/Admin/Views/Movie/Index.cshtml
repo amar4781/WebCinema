@@ -1,0 +1,223 @@
+﻿@model MoviesVM
+
+@section Scripts {
+    <partial name="_NotificationPartial.cshtml" />
+}
+
+<div class="row g-3 mb-3">
+    <div class="col-xxl-6 col-xl-12">
+        <div class="row g-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row flex-between-end">
+                            <div class="col-auto align-self-center">
+                                <h5 class="mb-0" data-anchor="data-anchor">Movie Table</h5>
+                                <p class="mb-0 pt-1 mt-2 mb-0">Using the most basic table markup, here’s how <code> .table </code> based tables look in Bootstrap.</p>
+                            </div>
+                            <div class="col-auto ms-auto">
+                                <a href="/Admin/Movie/Create" class="btn btn-falcon-success btn-sm" type="button"><span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span><span class="ms-1">New</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="tab-content">
+                            <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-312058a7-65a3-45e8-89e9-d16cd165bba0" id="dom-312058a7-65a3-45e8-89e9-d16cd165bba0">
+                                <div class="row justify-content-end g-0">
+                                    <div class="col-auto col-sm-5 mb-3">
+                                        <form method="get" asp-area="Admin" asp-controller="Movie" asp-action="Index">
+                                            <div class="input-group">
+                                                <input class="form-control form-control-sm shadow-none"
+                                                       type="search"
+                                                       name="name"
+                                                       value="@Context.Request.Query["name"]"
+                                                       placeholder="Search..." />
+
+                                                <button type="submit" class="input-group-text bg-transparent border-0">
+                                                    <span class="fa fa-search fs--1 text-600"></span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="table-responsive scrollbar">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">No.</th>
+                                                <th scope="col">Img</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">Category</th>
+                                                <th scope="col">Cinema</th>
+                                                <th scope="col">Status</th>
+                                                <th class="text-end" scope="col">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.Movies)
+                                            {
+                                                <tr>
+                                                    <td>@item.Id</td>
+                                                    <td>
+                                                        <div class="avatar avatar-5xl">
+                                                            <img class="rounded-soft" src="~/img/movie_imgs/@item.MainImg" alt="" />
+                                                        </div>
+                                                    </td>
+                                                    <td>@item.Name</td>
+                                                    <td>@item.Price.ToString("c")</td>
+                                                    <td><span class="badge badge rounded-pill d-block p-2 badge-soft-secondary">@item.Category.Name</span></td>
+                                                    <td><span class="badge badge rounded-pill d-block p-2 badge-soft-secondary">@item.Cinema.Name</span></td>
+                                                    <td>
+                                                        @if (item.Status)
+                                                        {
+                                                            <span class="badge badge rounded-pill d-block p-2 badge-soft-success">Active</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="badge badge rounded-pill d-block p-2 badge-soft-warning">Not Active</span>
+                                                        }
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <div>
+                                                            <a href="/Admin/Movie/Edit/@item.Id" class="btn btn-link p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="text-500 fas fa-edit"></span></a>
+                                                            <a href="/Admin/Movie/Delete/@item.Id" class="btn btn-link p-0 ms-2 btn-delete" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="text-500 fas fa-trash-alt"></span></a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center">
+                                        @if (Model.CurrentPage > 1)
+                                        {
+                                            <li class="page-item"><a class="page-link" href="/Admin/Movie/Index?page=@(Model.CurrentPage - 1)" tabindex="-1" aria-disabled="true">Previous</a></li>
+                                        }
+                                        @for (int i = 1; i <= Model.TotalPages; i++)
+                                        {
+                                            @if (i == Model.CurrentPage)
+                                            {
+                                                <li class="page-item active"><a class="page-link" href="/Admin/Movie/Index?page=@i&name=@Context.Request.Query["name"]">@i</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li class="page-item"><a class="page-link" href="/Admin/Movie/Index?page=@i&name=@Context.Request.Query["name"]">@i</a></li>
+                                            }
+                                        }
+                                        @if (Model.CurrentPage < Model.TotalPages)
+                                        {
+                                            <li class="page-item"><a class="page-link" href="/Admin/Movie/Index?page=@(Model.CurrentPage + 1)">Next</a></li>
+                                        }
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div class="tab-pane code-tab-pane" role="tabpanel" aria-labelledby="tab-dom-e56f01fd-0875-4d42-84fa-cc29d6354804" id="dom-e56f01fd-0875-4d42-84fa-cc29d6354804">
+                                <pre class="scrollbar rounded-1" style="max-height:420px"><code class="language-html">&lt;div class=&quot;table-responsive scrollbar&quot;&gt;
+  &lt;table class=&quot;table&quot;&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th scope=&quot;col&quot;&gt;Name&lt;/th&gt;
+        &lt;th scope=&quot;col&quot;&gt;Email&lt;/th&gt;
+        &lt;th class=&quot;text-end&quot; scope=&quot;col&quot;&gt;Actions&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Ricky Antony&lt;/td&gt;
+        &lt;td&gt;ricky@example.com&lt;/td&gt;
+        &lt;td class=&quot;text-end&quot;&gt;
+          &lt;div&gt;
+            &lt;button class=&quot;btn btn-link p-0&quot; type=&quot;button&quot; data-bs-toggle=&quot;tooltip&quot; data-bs-placement=&quot;top&quot; title=&quot;Edit&quot;&gt;&lt;span class=&quot;text-500 fas fa-edit&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+            &lt;button class=&quot;btn btn-link p-0 ms-2&quot; type=&quot;button&quot; data-bs-toggle=&quot;tooltip&quot; data-bs-placement=&quot;top&quot; title=&quot;Delete&quot;&gt;&lt;span class=&quot;text-500 fas fa-trash-alt&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Emma Watson&lt;/td&gt;
+        &lt;td&gt;emma@example.com&lt;/td&gt;
+        &lt;td class=&quot;text-end&quot;&gt;
+          &lt;div&gt;
+            &lt;button class=&quot;btn btn-link p-0&quot; type=&quot;button&quot; data-bs-toggle=&quot;tooltip&quot; data-bs-placement=&quot;top&quot; title=&quot;Edit&quot;&gt;&lt;span class=&quot;text-500 fas fa-edit&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+            &lt;button class=&quot;btn btn-link p-0 ms-2&quot; type=&quot;button&quot; data-bs-toggle=&quot;tooltip&quot; data-bs-placement=&quot;top&quot; title=&quot;Delete&quot;&gt;&lt;span class=&quot;text-500 fas fa-trash-alt&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Rowen Atkinson&lt;/td&gt;
+        &lt;td&gt;rown@example.com&lt;/td&gt;
+        &lt;td class=&quot;text-end&quot;&gt;
+          &lt;div&gt;
+            &lt;button class=&quot;btn btn-link p-0&quot; type=&quot;button&quot; data-bs-toggle=&quot;tooltip&quot; data-bs-placement=&quot;top&quot; title=&quot;Edit&quot;&gt;&lt;span class=&quot;text-500 fas fa-edit&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+            &lt;button class=&quot;btn btn-link p-0 ms-2&quot; type=&quot;button&quot; data-bs-toggle=&quot;tooltip&quot; data-bs-placement=&quot;top&quot; title=&quot;Delete&quot;&gt;&lt;span class=&quot;text-500 fas fa-trash-alt&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Antony Hopkins&lt;/td&gt;
+        &lt;td&gt;antony@example.com&lt;/td&gt;
+        &lt;td class=&quot;text-end&quot;&gt;
+          &lt;div&gt;
+            &lt;button class=&quot;btn btn-link p-0&quot; type=&quot;button&quot; data-bs-toggle=&quot;tooltip&quot; data-bs-placement=&quot;top&quot; title=&quot;Edit&quot;&gt;&lt;span class=&quot;text-500 fas fa-edit&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+            &lt;button class=&quot;btn btn-link p-0 ms-2&quot; type=&quot;button&quot; data-bs-toggle=&quot;tooltip&quot; data-bs-placement=&quot;top&quot; title=&quot;Delete&quot;&gt;&lt;span class=&quot;text-500 fas fa-trash-alt&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Jennifer Schramm&lt;/td&gt;
+        &lt;td&gt;jennifer@example.com&lt;/td&gt;
+        &lt;td class=&quot;text-end&quot;&gt;
+          &lt;div&gt;
+            &lt;button class=&quot;btn btn-link p-0&quot; type=&quot;button&quot; data-bs-toggle=&quot;tooltip&quot; data-bs-placement=&quot;top&quot; title=&quot;Edit&quot;&gt;&lt;span class=&quot;text-500 fas fa-edit&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+            &lt;button class=&quot;btn btn-link p-0 ms-2&quot; type=&quot;button&quot; data-bs-toggle=&quot;tooltip&quot; data-bs-placement=&quot;top&quot; title=&quot;Delete&quot;&gt;&lt;span class=&quot;text-500 fas fa-trash-alt&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const deleteButtons = document.querySelectorAll(".btn-delete");
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", function (e) {
+                e.preventDefault(); // stop normal navigation
+
+                const url = this.getAttribute("href");
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "This action cannot be undone!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                          title: "Deleted!",
+                          text: "Your file has been deleted.",
+                          icon: "success"
+                        });
+
+                        // Redirect to delete URL
+                        window.location.href = url;
+                    }
+                });
+            });
+        });
+    });
+</script>

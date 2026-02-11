@@ -1,0 +1,254 @@
+﻿@model MovieUpdateResponseVM
+
+@section Scripts {
+    <partial name="_NotificationPartial.cshtml" />
+}
+
+<div class="row g-3 mb-3">
+    <div class="col-xxl-6 col-xl-12">
+        <div class="row g-3">
+            <div class="col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <div class="row flex-between-end">
+                            <div class="col-auto align-self-center">
+                                <h5 class="mb-0" data-anchor="data-anchor">Edit Movie Item</h5>
+                            </div>
+                            <div class="col-auto ms-auto">
+                                <div class="nav nav-pills nav-pills-falcon flex-grow-1" role="tablist">
+                                    <a href="/Admin/Movie" class="btn btn-falcon-danger btn-sm" type="button"><span class="fas fa-angle-double-left" data-fa-transform="shrink-3 down-2"></span><span class="ms-1">Back</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body bg-light">
+                        <div class="tab-content">
+                            <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-160a4566-7e94-45a2-bf04-b36ef49d954f" id="dom-160a4566-7e94-45a2-bf04-b36ef49d954f">
+                                <form method="post" enctype="multipart/form-data">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="basic-form-name">Name</label>
+                                        <input class="form-control" name="Name" type="text" value="@Model.Movie.Name" placeholder="Name" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="basic-form-textarea">Description</label>
+                                        <textarea class="form-control" name="Description" rows="3" placeholder="Description">@Model.Movie.Description</textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="basic-form-gender">Category</label>
+                                        <select class="form-select" name="CategoryId" id="basic-form-gender" aria-label="Default select example">
+                                            @foreach (var item in Model.Categories)
+                                            {
+                                                @if (item.Id == Model.Movie.CategoryId)
+                                                {
+                                                    <option value="@item.Id" selected>@item.Name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="basic-form-gender">Cinema</label>
+                                        <select class="form-select" name="CinemaId" id="basic-form-gender" aria-label="Default select example">
+                                            @foreach (var item in Model.Cinemas)
+                                            {
+                                                @if (item.Id == Model.Movie.CinemaId)
+                                                {
+                                                    <option value="@item.Id" selected>@item.Name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Upload Main Image</label>
+                                        <input class="form-control" type="file" name="MainImg" accept="image/*" onchange="previewMainImage(event)" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Main Image Preview</label>
+                                        <div class="border rounded p-2 text-center" style="max-width:300px;">
+                                            <img id="mainImagePreview" src="~/img/movie_imgs/@Model.Movie.MainImg" style="max-width:100%; max-height:250px;" />
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Current Sub Images</label>
+                                        <div class="d-flex flex-wrap gap-3">
+                                            @foreach (var item in Model.MovieSubImgs)
+                                            {
+                                                <div class="text-center">
+                                                    <img src="~/img/movie_imgs/sub_images/@item.SubImg" style="width:150px; height:150px; object-fit:cover;" class="rounded border" />
+                                                    <br />
+                                                    <a href="/Admin/Movie/DeleteImg/@item.MovieId?movieImgId=@item.Id" class="btn btn-sm btn-danger mt-1">Delete</a>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Upload New Sub Images</label>
+                                        <input class="form-control" type="file" name="SubImgs" accept="image/*"  onchange="previewSubImages(event)" multiple />
+                                    </div>
+                                    <div class="mb-3" id="subImagesPreviewContainer" style="display:none;">
+                                        <label class="form-label">New Sub Images Preview</label>
+                                        <div id="subImagesPreview" class="d-flex flex-wrap gap-2"></div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="basic-form-dob">Date of Birth</label>
+                                        <input class="form-control" name="DateTime" value="@Model.Movie.DateTime.ToString("yyyy-MM-dd")" type="date" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="basic-form-price">Price</label>
+                                        <input class="form-control" type="number" name="Price" value="@Model.Movie.Price" placeholder="0.00" step="0.01" min="0" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Select Actors</label>
+                                        <div>
+                                            @foreach (var actor in Model.Actors)
+                                            {
+                                                <div class="form-check">
+                                                    <input class="form-check-input"
+                                                           type="checkbox"
+                                                           name="ActorIds"
+                                                           value="@actor.Id"
+                                                           @(Model.SelectedActorIds?.Contains(actor.Id) == true ? "checked" : "") />
+                                                    <label class="form-check-label">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="avatar avatar-3xl">
+                                                                <img class="rounded-soft" src="~/img/actor_imgs/@actor.Img" alt="" />
+                                                            </div>
+                                                            <div class="ms-2">@actor.Name</div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="basic-form-gender">Status</label>
+                                        <select class="form-select" name="status" id="basic-form-gender" aria-label="Default select example">
+                                            @if (Model.Movie.Status)
+                                            {
+                                                <option value="true" selected>Active</option>
+                                                <option value="false">Not Active</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="true">Active</option>
+                                                <option value="false" selected>Not Active</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit">Save Changes</button>
+                                </form>
+                            </div>
+                            <div class="tab-pane code-tab-pane" role="tabpanel" aria-labelledby="tab-dom-c8dc7b6b-3f3c-4f91-b4e1-8f1879554e4f" id="dom-c8dc7b6b-3f3c-4f91-b4e1-8f1879554e4f">
+                                <pre class="scrollbar rounded-1" style="max-height:420px"><code class="language-html">&lt;form&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-name&quot;&gt;Name&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; id=&quot;basic-form-name&quot; type=&quot;text&quot; placeholder=&quot;Name&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-email&quot;&gt;Email address&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; id=&quot;basic-form-email&quot; type=&quot;email&quot; placeholder=&quot;name@example.com&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-password&quot;&gt;Password&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; id=&quot;basic-form-password&quot; type=&quot;password&quot; placeholder=&quot;Password&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-dob&quot;&gt;Date of Birth&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; id=&quot;basic-form-dob&quot; type=&quot;date&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-gender&quot;&gt;Gender&lt;/label&gt;
+    &lt;select class=&quot;form-select&quot; id=&quot;basic-form-gender&quot; aria-label=&quot;Default select example&quot;&gt;
+      &lt;option selected=&quot;selected&quot;&gt;Select your gender&lt;/option&gt;
+      &lt;option value=&quot;male&quot;&gt;Male&lt;/option&gt;
+      &lt;option value=&quot;female&quot;&gt;Female&lt;/option&gt;
+      &lt;option value=&quot;other&quot;&gt;Other&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;div class=&quot;form-check&quot;&gt;
+      &lt;input class=&quot;form-check-input&quot; id=&quot;flexRadioDefault1&quot; type=&quot;radio&quot; name=&quot;flexRadioDefault&quot; /&gt;
+      &lt;label class=&quot;form-check-label mb-0&quot; for=&quot;flexRadioDefault1&quot;&gt;Personal Account&lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-check&quot;&gt;
+      &lt;input class=&quot;form-check-input&quot; id=&quot;flexRadioDefault2&quot; type=&quot;radio&quot; name=&quot;flexRadioDefault&quot; checked=&quot;checked&quot; /&gt;
+      &lt;label class=&quot;form-check-label mb-0&quot; for=&quot;flexRadioDefault2&quot;&gt;Business Account&lt;/label&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot;&gt;Upload Image&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; type=&quot;file&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-textarea&quot;&gt;Description&lt;/label&gt;
+    &lt;textarea class=&quot;form-control&quot; id=&quot;basic-form-textarea&quot; rows=&quot;3&quot; placeholder=&quot;Description&quot;&gt;&lt;/textarea&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3 form-check&quot;&gt;
+    &lt;input class=&quot;form-check-input&quot; id=&quot;basic-form-checkbox&quot; type=&quot;checkbox&quot; /&gt;
+    &lt;label class=&quot;form-check-label&quot; for=&quot;basic-form-checkbox&quot;&gt;Remember me&lt;/label&gt;
+  &lt;/div&gt;
+  &lt;button class=&quot;btn btn-primary&quot; type=&quot;submit&quot;&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Main Image Preview
+    function previewMainImage(event) {
+        const input = event.target;
+        const preview = document.getElementById("mainImagePreview");
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = e => preview.src = e.target.result;
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Sub Images Preview
+    function previewSubImages(event) {
+        const container = document.getElementById("subImagesPreviewContainer");
+        const preview = document.getElementById("subImagesPreview");
+
+        preview.innerHTML = "";
+
+        const files = event.target.files;
+        if (files.length === 0) {
+            container.style.display = "none";
+            return;
+        }
+
+        container.style.display = "block";
+
+        Array.from(files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const img = document.createElement("img");
+                img.src = e.target.result;
+                img.style.width = "120px";
+                img.style.height = "120px";
+                img.style.objectFit = "cover";
+                img.classList.add("rounded", "border");
+
+                preview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+</script>
