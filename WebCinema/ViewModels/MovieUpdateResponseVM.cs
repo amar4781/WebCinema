@@ -1,6 +1,4 @@
-﻿using Microsoft.Build.Tasks.Deployment.Bootstrapper;
-
-namespace WebCinema.ViewModels
+﻿namespace WebCinema.ViewModels
 {
     public class MovieUpdateResponseVM
     {

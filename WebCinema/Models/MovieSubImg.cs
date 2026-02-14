@@ -1,6 +1,4 @@
-﻿using Microsoft.Build.Tasks.Deployment.Bootstrapper;
-
-namespace WebCinema.Models
+﻿namespace WebCinema.Models
 {
     public class MovieSubImg
     {
