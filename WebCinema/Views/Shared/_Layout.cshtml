@@ -29,6 +29,35 @@
                         </li>
                     </ul>
                 </div>
+                <div class="col-lg-4 text-center text-lg-end">
+                    <div class="d-inline-flex align-items-center" style="height: 45px;">
+                        <div class="dropdown">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a href="#" class="dropdown-toggle text-muted ms-2" data-bs-toggle="dropdown">
+                                    <small><i class="fa fa-home me-2"></i> Welcome, @User.Identity.Name</small>
+                                    </a>
+                                <div class="dropdown-menu rounded">
+                                    <a href="#" class="dropdown-item"> Wishlist</a>
+                                    <a href="#" class="dropdown-item"> My Card</a>
+                                    <a href="#" class="dropdown-item"> Notifications</a>
+                                    <a href="#" class="dropdown-item"> Account Settings</a>
+                                    <a href="/Identity/Account/LogOut" class="dropdown-item text-danger"> Log Out</a>
+                                </div>
+                                }
+                                else
+                                {
+                                <a href="#" class="dropdown-toggle text-muted ms-2" data-bs-toggle="dropdown">
+                                    <small><i class="fa fa-home me-2"></i> My Dashboard</small>
+                                    </a>
+                                <div class="dropdown-menu rounded">
+                                    <a href="/Identity/Account/Register" class="dropdown-item"> Register</a>
+                                    <a href="/Identity/Account/Login" class="dropdown-item"> Login</a>
+                                </div>
+                                }
+                            </div>
+                    </div>
+                </div>
             </div>
         </nav>
     </header>
@@ -46,6 +75,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
