@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace WebCinema.Areas.Admin.Controllers
 {
     [Area(SD.ADMIN_AREA)]
+    [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE},{SD.EMPLOYEE_ROLE}")]
     public class MovieController : Controller
     {
         //private ApplicationDbContext _context = new();
@@ -146,6 +148,7 @@ namespace WebCinema.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
         public async Task<IActionResult> Edit([FromRoute] int id)
         {
             //var movie = _context.Movies.Find(id);
@@ -176,6 +179,7 @@ namespace WebCinema.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
         public async Task<IActionResult> Edit(Movie movie, IFormFile? MainImg, List<IFormFile>? SubImgs, List<int> ActorIds)
         {
             //var movieInDb = _context.Movies.AsNoTracking().FirstOrDefault(e => e.Id == movie.Id);
@@ -310,6 +314,7 @@ namespace WebCinema.Areas.Admin.Controllers
             return RedirectToAction(nameof(Edit), new { id });
         }
 
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
         public async Task<IActionResult> Delete(int id)
         {
             //var movie = _context.Movies.Find(id);

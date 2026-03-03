@@ -72,12 +72,20 @@
                                                             <span class="badge badge rounded-pill d-block p-2 badge-soft-warning">Not Active</span>
                                                         }
                                                     </td>
-                                                    <td class="text-end">
-                                                        <div>
-                                                            <a href="/Admin/Cinema/Edit/@item.Id" class="btn btn-link p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="text-500 fas fa-edit"></span></a>
-                                                            <a href="/Admin/Cinema/Delete/@item.Id" class="btn btn-link p-0 ms-2 btn-delete" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="text-500 fas fa-trash-alt"></span></a>
-                                                        </div>
-                                                    </td>
+                                                    @if (User.IsInRole(SD.SUPER_ADMIN_ROLE) || User.IsInRole(SD.ADMIN_ROLE))
+                                                    {
+                                                        <td class="text-end">
+                                                            <div>
+                                                                <a href="/Admin/Cinema/Edit/@item.Id" class="btn btn-link p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="text-500 fas fa-edit"></span></a>
+                                                                <a href="/Admin/Cinema/Delete/@item.Id" class="btn btn-link p-0 ms-2 btn-delete" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="text-500 fas fa-trash-alt"></span></a>
+                                                            </div>
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="text-end">No Actions !!</td>
+                                                    }
+
                                                 </tr>
                                             }
                                         </tbody>

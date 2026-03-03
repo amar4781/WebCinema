@@ -1,0 +1,132 @@
+﻿@model CreateUserVM
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<div class="row g-3 mb-3">
+    <div class="col-xxl-6 col-xl-12">
+        <div class="row g-3">
+            <div class="col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <div class="row flex-between-end">
+                            <div class="col-auto align-self-center">
+                                <h5 class="mb-0" data-anchor="data-anchor">Create New User</h5>
+                            </div>
+                            <div class="col-auto ms-auto">
+                                <div class="nav nav-pills nav-pills-falcon flex-grow-1" role="tablist">
+                                    <a href="/Admin/User" class="btn btn-falcon-danger btn-sm" type="button"><span class="fas fa-angle-double-left" data-fa-transform="shrink-3 down-2"></span><span class="ms-1">Back</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body bg-light">
+                        <div class="tab-content">
+                            <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-160a4566-7e94-45a2-bf04-b36ef49d954f" id="dom-160a4566-7e94-45a2-bf04-b36ef49d954f">
+                                <form asp-action="Create" method="post">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label asp-for="FName" class="form-label"></label>
+                                            <input asp-for="FName" class="form-control" />
+                                            <span asp-validation-for="FName" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <label asp-for="LName" class="form-label"></label>
+                                            <input asp-for="LName" class="form-control" />
+                                            <span asp-validation-for="LName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label asp-for="Email" class="form-label"></label>
+                                        <input asp-for="Email" class="form-control" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="UserName" class="form-label"></label>
+                                        <input asp-for="UserName" class="form-control" />
+                                        <span asp-validation-for="UserName" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="Password" class="form-label"></label>
+                                        <input asp-for="Password" class="form-control" />
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Role</label>
+                                        <select asp-for="SelectedRole" class="form-select">
+                                            <option value="">-- Select Role --</option>
+                                            @foreach (var role in Model.Roles)
+                                            {
+                                                <option value="@role">@role</option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="SelectedRole" class="text-danger"></span>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit">Submit</button>
+                                </form>
+                            </div>
+                            <div class="tab-pane code-tab-pane" role="tabpanel" aria-labelledby="tab-dom-c8dc7b6b-3f3c-4f91-b4e1-8f1879554e4f" id="dom-c8dc7b6b-3f3c-4f91-b4e1-8f1879554e4f">
+                                <pre class="scrollbar rounded-1" style="max-height:420px"><code class="language-html">&lt;form&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-name&quot;&gt;Name&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; id=&quot;basic-form-name&quot; type=&quot;text&quot; placeholder=&quot;Name&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-email&quot;&gt;Email address&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; id=&quot;basic-form-email&quot; type=&quot;email&quot; placeholder=&quot;name@example.com&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-password&quot;&gt;Password&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; id=&quot;basic-form-password&quot; type=&quot;password&quot; placeholder=&quot;Password&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-dob&quot;&gt;Date of Birth&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; id=&quot;basic-form-dob&quot; type=&quot;date&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-gender&quot;&gt;Gender&lt;/label&gt;
+    &lt;select class=&quot;form-select&quot; id=&quot;basic-form-gender&quot; aria-label=&quot;Default select example&quot;&gt;
+      &lt;option selected=&quot;selected&quot;&gt;Select your gender&lt;/option&gt;
+      &lt;option value=&quot;male&quot;&gt;Male&lt;/option&gt;
+      &lt;option value=&quot;female&quot;&gt;Female&lt;/option&gt;
+      &lt;option value=&quot;other&quot;&gt;Other&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;div class=&quot;form-check&quot;&gt;
+      &lt;input class=&quot;form-check-input&quot; id=&quot;flexRadioDefault1&quot; type=&quot;radio&quot; name=&quot;flexRadioDefault&quot; /&gt;
+      &lt;label class=&quot;form-check-label mb-0&quot; for=&quot;flexRadioDefault1&quot;&gt;Personal Account&lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-check&quot;&gt;
+      &lt;input class=&quot;form-check-input&quot; id=&quot;flexRadioDefault2&quot; type=&quot;radio&quot; name=&quot;flexRadioDefault&quot; checked=&quot;checked&quot; /&gt;
+      &lt;label class=&quot;form-check-label mb-0&quot; for=&quot;flexRadioDefault2&quot;&gt;Business Account&lt;/label&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot;&gt;Upload Image&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; type=&quot;file&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-textarea&quot;&gt;Description&lt;/label&gt;
+    &lt;textarea class=&quot;form-control&quot; id=&quot;basic-form-textarea&quot; rows=&quot;3&quot; placeholder=&quot;Description&quot;&gt;&lt;/textarea&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3 form-check&quot;&gt;
+    &lt;input class=&quot;form-check-input&quot; id=&quot;basic-form-checkbox&quot; type=&quot;checkbox&quot; /&gt;
+    &lt;label class=&quot;form-check-label&quot; for=&quot;basic-form-checkbox&quot;&gt;Remember me&lt;/label&gt;
+  &lt;/div&gt;
+  &lt;button class=&quot;btn btn-primary&quot; type=&quot;submit&quot;&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

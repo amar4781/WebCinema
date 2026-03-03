@@ -21,6 +21,9 @@
         [DataType(DataType.Date)]
         public DateTime DateTime { get; set; }
 
+        [Range(0, int.MaxValue, ErrorMessage = "Quantity must be at least 1")]
+        public int Quantity { get; set; }
+
         public bool Status { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Please select a category")]

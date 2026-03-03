@@ -1,0 +1,129 @@
+﻿@model PromotionUpdateResponseVM
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<div class="row g-3 mb-3">
+    <div class="col-xxl-6 col-xl-12">
+        <div class="row g-3">
+            <div class="col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <div class="row flex-between-end">
+                            <div class="col-auto align-self-center">
+                                <h5 class="mb-0" data-anchor="data-anchor">Edit Category Item</h5>
+                            </div>
+                            <div class="col-auto ms-auto">
+                                <div class="nav nav-pills nav-pills-falcon flex-grow-1" role="tablist">
+                                    <a href="/Admin/Promotion" class="btn btn-falcon-danger btn-sm" type="button"><span class="fas fa-angle-double-left" data-fa-transform="shrink-3 down-2"></span><span class="ms-1">Back</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body bg-light">
+                        <div class="tab-content">
+                            <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-160a4566-7e94-45a2-bf04-b36ef49d954f" id="dom-160a4566-7e94-45a2-bf04-b36ef49d954f">
+                                <form asp-area="Admin" asp-controller="Promotion" asp-action="Edit" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" asp-for="Promotion.Id" />
+                                    <div class="mb-3">
+                                        <label asp-for="Promotion.Code" class="form-label"></label>
+                                        <input asp-for="Promotion.Code" class="form-control" />
+                                        <span asp-validation-for="Promotion.Code" class="text-danger"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label asp-for="Promotion.Discount" class="form-label"></label>
+                                        <input asp-for="Promotion.Discount" type="number" step="0.01" class="form-control" />
+                                        <span asp-validation-for="Promotion.Discount" class="text-danger"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Movie</label>
+                                        <select asp-for="Promotion.MovieId" class="form-select">
+                                            <option value="">-- Select Movie --</option>
+                                            @foreach (var movie in Model.Movies)
+                                            {
+                                                <option value="@movie.Id" selected="@(movie.Id == Model.Promotion.MovieId)">
+                                                    @movie.Name
+                                                </option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="Promotion.MovieId" class="text-danger"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label asp-for="Promotion.MaxUsage" class="form-label"></label>
+                                        <input asp-for="Promotion.MaxUsage" type="number" class="form-control" />
+                                        <span asp-validation-for="Promotion.MaxUsage" class="text-danger"></span>
+                                    </div>
+                                    @* 
+                                    <div class="mb-3">
+                                        <label asp-for="Promotion.ExpiredAt" class="form-label"></label>
+                                        <input asp-for="Promotion.ExpiredAt"
+                                               type="datetime-local"
+                                               class="form-control"
+                                               value="@Model.Promotion.ExpiredAt.ToString("yyyy-MM-ddTHH:mm")" />
+                                        <span asp-validation-for="Promotion.ExpiredAt" class="text-danger"></span>
+                                    </div>
+                                    *@
+                                    <button class="btn btn-primary" type="submit">Save Changes</button>
+                                </form>
+                            </div>
+                            <div class="tab-pane code-tab-pane" role="tabpanel" aria-labelledby="tab-dom-c8dc7b6b-3f3c-4f91-b4e1-8f1879554e4f" id="dom-c8dc7b6b-3f3c-4f91-b4e1-8f1879554e4f">
+                                <pre class="scrollbar rounded-1" style="max-height:420px"><code class="language-html">&lt;form&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-name&quot;&gt;Name&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; id=&quot;basic-form-name&quot; type=&quot;text&quot; placeholder=&quot;Name&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-email&quot;&gt;Email address&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; id=&quot;basic-form-email&quot; type=&quot;email&quot; placeholder=&quot;name@example.com&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-password&quot;&gt;Password&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; id=&quot;basic-form-password&quot; type=&quot;password&quot; placeholder=&quot;Password&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-dob&quot;&gt;Date of Birth&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; id=&quot;basic-form-dob&quot; type=&quot;date&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-gender&quot;&gt;Gender&lt;/label&gt;
+    &lt;select class=&quot;form-select&quot; id=&quot;basic-form-gender&quot; aria-label=&quot;Default select example&quot;&gt;
+      &lt;option selected=&quot;selected&quot;&gt;Select your gender&lt;/option&gt;
+      &lt;option value=&quot;male&quot;&gt;Male&lt;/option&gt;
+      &lt;option value=&quot;female&quot;&gt;Female&lt;/option&gt;
+      &lt;option value=&quot;other&quot;&gt;Other&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;div class=&quot;form-check&quot;&gt;
+      &lt;input class=&quot;form-check-input&quot; id=&quot;flexRadioDefault1&quot; type=&quot;radio&quot; name=&quot;flexRadioDefault&quot; /&gt;
+      &lt;label class=&quot;form-check-label mb-0&quot; for=&quot;flexRadioDefault1&quot;&gt;Personal Account&lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-check&quot;&gt;
+      &lt;input class=&quot;form-check-input&quot; id=&quot;flexRadioDefault2&quot; type=&quot;radio&quot; name=&quot;flexRadioDefault&quot; checked=&quot;checked&quot; /&gt;
+      &lt;label class=&quot;form-check-label mb-0&quot; for=&quot;flexRadioDefault2&quot;&gt;Business Account&lt;/label&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot;&gt;Upload Image&lt;/label&gt;
+    &lt;input class=&quot;form-control&quot; type=&quot;file&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;basic-form-textarea&quot;&gt;Description&lt;/label&gt;
+    &lt;textarea class=&quot;form-control&quot; id=&quot;basic-form-textarea&quot; rows=&quot;3&quot; placeholder=&quot;Description&quot;&gt;&lt;/textarea&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mb-3 form-check&quot;&gt;
+    &lt;input class=&quot;form-check-input&quot; id=&quot;basic-form-checkbox&quot; type=&quot;checkbox&quot; /&gt;
+    &lt;label class=&quot;form-check-label&quot; for=&quot;basic-form-checkbox&quot;&gt;Remember me&lt;/label&gt;
+  &lt;/div&gt;
+  &lt;button class=&quot;btn btn-primary&quot; type=&quot;submit&quot;&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,83 +1,140 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1">
+
     <title>@ViewData["Title"] - WebCinema</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WebCinema.styles.css" asp-append-version="true" />
+
+    <!-- Loading third party fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700|" rel="stylesheet">
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+    <link href="~/customer/fonts/lineo-icon/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <!-- Loading main css file -->
+    <link rel="stylesheet" href="~/customer/style.css">
+
+    <!--[if lt IE 9]>
+    <script src="~/customer/js/ie-support/html5.js"></script>
+    <script src="~/customer/js/ie-support/respond.js"></script>
+    <![endif]-->
+
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebCinema</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-lg-4 text-center text-lg-end">
-                    <div class="d-inline-flex align-items-center" style="height: 45px;">
-                        <div class="dropdown">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <a href="#" class="dropdown-toggle text-muted ms-2" data-bs-toggle="dropdown">
-                                    <small><i class="fa fa-home me-2"></i> Welcome, @User.Identity.Name</small>
-                                    </a>
-                                <div class="dropdown-menu rounded">
-                                    <a href="#" class="dropdown-item"> Wishlist</a>
-                                    <a href="#" class="dropdown-item"> My Card</a>
-                                    <a href="#" class="dropdown-item"> Notifications</a>
-                                    <a href="#" class="dropdown-item"> Account Settings</a>
-                                    <a href="/Identity/Account/LogOut" class="dropdown-item text-danger"> Log Out</a>
-                                </div>
-                                }
-                                else
-                                {
-                                <a href="#" class="dropdown-toggle text-muted ms-2" data-bs-toggle="dropdown">
-                                    <small><i class="fa fa-home me-2"></i> My Dashboard</small>
-                                    </a>
-                                <div class="dropdown-menu rounded">
-                                    <a href="/Identity/Account/Register" class="dropdown-item"> Register</a>
-                                    <a href="/Identity/Account/Login" class="dropdown-item"> Login</a>
-                                </div>
-                                }
-                            </div>
+
+
+<body class="slider-collapse">
+
+    <div id="site-content">
+        <div class="site-header">
+            <div class="container">
+                <a href="/Customer/Home/Index" id="branding">
+                    <img src="~/customer/images/logo.png" alt="" class="logo">
+                    <div class="logo-text">
+                        <h1 class="site-title">WebCinema</h1>
+                        <small class="site-description">Tagline goes here</small>
                     </div>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+                </a> <!-- #branding -->
+
+                <div class="right-section pull-right">
+                    <a href="/Customer/Cart" class="cart"><i class="icon-cart"></i> 0 items in cart</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a href="#">My Account</a>
+                        <a href="/Identity/Account/LogOut" class="text-danger">Logout <small>(@User.Identity.Name)</small></a>
+                    }
+                    else
+                    {
+                        <a href="/Identity/Account/Register">Register</a>
+                        <a href="/Identity/Account/Login">Login</a>
+                    }
+                </div> <!-- .right-section -->
+            </div> <!-- .container -->
+        </div> <!-- .site-header -->
+
+        @RenderBody()
+
+        <div class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="widget">
+                            <h3 class="widget-title">Information</h3>
+                            <ul class="no-bullet">
+                                <li><a href="#">Site map</a></li>
+                                <li><a href="#">About us</a></li>
+                                <li><a href="#">FAQ</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div> <!-- .widget -->
+                    </div> <!-- column -->
+                    <div class="col-md-2">
+                        <div class="widget">
+                            <h3 class="widget-title">Consumer Service</h3>
+                            <ul class="no-bullet">
+                                <li><a href="#">Secure</a></li>
+                                <li><a href="#">Shipping &amp; Returns</a></li>
+                                <li><a href="#">Shipping</a></li>
+                                <li><a href="#">Orders &amp; Returns</a></li>
+                                <li><a href="#">Group Sales</a></li>
+                            </ul>
+                        </div> <!-- .widget -->
+                    </div> <!-- column -->
+                    <div class="col-md-2">
+                        <div class="widget">
+                            <h3 class="widget-title">My Account</h3>
+                            <ul class="no-bullet">
+                                <li><a href="#">Login/Register</a></li>
+                                <li><a href="#">Settings</a></li>
+                                <li><a href="#">Cart</a></li>
+                                <li><a href="#">Order Tracking</a></li>
+                                <li><a href="#">Logout</a></li>
+                            </ul>
+                        </div> <!-- .widget -->
+                    </div> <!-- column -->
+                    <div class="col-md-6">
+                        <div class="widget">
+                            <h3 class="widget-title">Join our newsletter</h3>
+                            <form action="#" class="newsletter-form">
+                                <input type="text" placeholder="Enter your email...">
+                                <input type="submit" value="Subsribe">
+                            </form>
+                        </div> <!-- .widget -->
+                    </div> <!-- column -->
+                </div><!-- .row -->
+
+                <div class="colophon">
+                    <div class="copy">Copyright @DateTime.Now.Year WebCinema. Designed by Themezy. All rights reserved.</div>
+                    <div class="social-links square">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-google-plus"></i></a>
+                        <a href="#"><i class="fa fa-pinterest"></i></a>
+                    </div> <!-- .social-links -->
+                </div> <!-- .colophon -->
+            </div> <!-- .container -->
+        </div> <!-- .site-footer -->
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - WebCinema - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
+
+    <!-- Toastr -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Custom -->
+    <script src="~/customer/js/plugins.js"></script>
+    <script src="~/customer/js/app.js"></script>
+    @await RenderSectionAsync("Scripts", required: false) 
 </body>
+
 </html>

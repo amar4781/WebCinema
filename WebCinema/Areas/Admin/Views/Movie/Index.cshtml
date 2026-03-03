@@ -47,6 +47,7 @@
                                                 <th scope="col">No.</th>
                                                 <th scope="col">Img</th>
                                                 <th scope="col">Name</th>
+                                                <th scope="col">Quantity</th>
                                                 <th scope="col">Price</th>
                                                 <th scope="col">Category</th>
                                                 <th scope="col">Cinema</th>
@@ -65,6 +66,7 @@
                                                         </div>
                                                     </td>
                                                     <td>@item.Name</td>
+                                                    <td>@item.Quantity</td>
                                                     <td>@item.Price.ToString("c")</td>
                                                     <td><span class="badge badge rounded-pill d-block p-2 badge-soft-secondary">@item.Category.Name</span></td>
                                                     <td><span class="badge badge rounded-pill d-block p-2 badge-soft-secondary">@item.Cinema.Name</span></td>
@@ -78,12 +80,19 @@
                                                             <span class="badge badge rounded-pill d-block p-2 badge-soft-warning">Not Active</span>
                                                         }
                                                     </td>
-                                                    <td class="text-end">
-                                                        <div>
-                                                            <a href="/Admin/Movie/Edit/@item.Id" class="btn btn-link p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="text-500 fas fa-edit"></span></a>
-                                                            <a href="/Admin/Movie/Delete/@item.Id" class="btn btn-link p-0 ms-2 btn-delete" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="text-500 fas fa-trash-alt"></span></a>
-                                                        </div>
-                                                    </td>
+                                                    @if (User.IsInRole(SD.SUPER_ADMIN_ROLE) || User.IsInRole(SD.ADMIN_ROLE))
+                                                    {
+                                                        <td class="text-end">
+                                                            <div>
+                                                                <a href="/Admin/Movie/Edit/@item.Id" class="btn btn-link p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="text-500 fas fa-edit"></span></a>
+                                                                <a href="/Admin/Movie/Delete/@item.Id" class="btn btn-link p-0 ms-2 btn-delete" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="text-500 fas fa-trash-alt"></span></a>
+                                                            </div>
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="text-end">No Actions !!</td>
+                                                    }
                                                 </tr>
                                             }
                                         </tbody>

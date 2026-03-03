@@ -6,5 +6,12 @@
         public const string CUSTOMER_AREA = "Customer";
         public const string IDENTITY_AREA = "Identity";
         public const string CHAT_APP_AREA = "ChatApp";
+
+
+
+        public const string SUPER_ADMIN_ROLE = "SuperAdmin";
+        public const string ADMIN_ROLE = "Admin";
+        public const string EMPLOYEE_ROLE = "Employee";
+        public const string CUSTOMER_ROLE = "Customer";
     }
 }

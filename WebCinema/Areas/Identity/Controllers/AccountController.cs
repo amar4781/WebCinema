@@ -43,7 +43,7 @@ namespace WebCinema.Areas.Identity.Controllers
             if (!ModelState.IsValid)
                 return View(registerVM);
 
-            ApplicationUser applicationUser = new ApplicationUser
+            ApplicationUser user = new ApplicationUser
             {
                 FName = registerVM.FName,
                 LName = registerVM.LName,
@@ -52,10 +52,10 @@ namespace WebCinema.Areas.Identity.Controllers
                 Address = registerVM.Address
             };
 
-            //var applicationUser = registerVM.Adapt<ApplicationUser>();
-            //applicationUser.Id = Guid.NewGuid().ToString();
+            //var user = registerVM.Adapt<ApplicationUser>();
+            //user.Id = Guid.NewGuid().ToString();
 
-            var result = await _userManager.CreateAsync(applicationUser, registerVM.Password);
+            var result = await _userManager.CreateAsync(user, registerVM.Password);
 
             if (!result.Succeeded)
             {
@@ -66,11 +66,13 @@ namespace WebCinema.Areas.Identity.Controllers
                 return View(registerVM);
             }
 
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser);
-            var confirmationLink = Url.Action("ConfirmEmail", "Account", new { area = "Identity", token, applicationUser.Id }, Request.Scheme);
-            //await _emailSender.SendEmailAsync(applicationUser.Email, "Confirm your Account!", $"<h1>Click <a href='{confirmationLink}'>here</a> to confirm your account.</h1>");
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationLink = Url.Action("ConfirmEmail", "Account", new { area = "Identity", token, user.Id }, Request.Scheme);
+            //await _emailSender.SendEmailAsync(user.Email, "Confirm your Account!", $"<h1>Click <a href='{confirmationLink}'>here</a> to confirm your account.</h1>");
 
-            await _accountService.SendEmailAsync(EmailType.Confirmation, $"<h1>Click <a href='{confirmationLink}'>here</a> to confirm your account.</h1>", applicationUser);
+            await _accountService.SendEmailAsync(EmailType.Confirmation, $"<h1>Click <a href='{confirmationLink}'>here</a> to confirm your account.</h1>", user);
+
+            await _userManager.AddToRoleAsync(user, SD.CUSTOMER_ROLE);
 
             TempData["success-notification"] = "Registered successfully";
 

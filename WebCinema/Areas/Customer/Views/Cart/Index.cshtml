@@ -1,0 +1,238 @@
+﻿@model IEnumerable<Cart>
+
+@{
+    ViewData["Title"] = "Cart Page";
+}
+
+
+<style>
+    .main-navigation .menu .has-dropdown {
+        position: relative;
+    }
+
+    .main-navigation .menu .sub-menu {
+        position: absolute;
+        top: 120%;
+        left: 0;
+        background: #fff;
+        list-style: none;
+        padding: 10px 0;
+        margin: 0;
+        min-width: 180px;
+        border-radius: 4px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        display: none;
+        z-index: 999;
+    }
+
+        .main-navigation .menu .sub-menu li {
+            padding: 0;
+        }
+
+            .main-navigation .menu .sub-menu li a {
+                display: block;
+                padding: 8px 15px;
+                color: #666;
+                text-decoration: none;
+                font-size: 14px;
+            }
+
+                .main-navigation .menu .sub-menu li a:hover {
+                    background: #f5f5f5;
+                    color: #2ecc71;
+                }
+
+    .main-navigation .menu .has-dropdown:hover .sub-menu {
+        display: block;
+    }
+
+    .main-navigation .menu .sub-menu li {
+        display: block;
+        width: 100%;
+    }
+
+        .main-navigation .menu .sub-menu li a {
+            display: block;
+            width: 100%;
+        }
+
+        .main-navigation .menu .sub-menu li:after {
+            display: none !important;
+        }
+</style>
+
+<div class="site-header">
+    <div class="container">
+        <div class="main-navigation">
+            <button class="toggle-menu"><i class="fa fa-bars"></i></button>
+            <ul class="menu">
+                <li class="menu-item home current-menu-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                <li class="menu-item has-dropdown">
+                    <a href="#">Categories</a>
+                    <ul class="sub-menu">
+                        @* @foreach (var item in Model.Categories)
+                        {
+                            <li><a href="/Customer/Home/Index?categoryId=@item.Id">@item.Name</a></li>
+                        } *@
+                    </ul>
+                </li>
+                <li class="menu-item"><a href="#">Promotions</a></li>
+                <li class="menu-item"><a href="#">PC</a></li>
+                <li class="menu-item"><a href="#">Playstation</a></li>
+                <li class="menu-item"><a href="#">Xbox</a></li>
+                <li class="menu-item"><a href="#">Wii</a></li>
+            </ul> <!-- .menu -->
+            <div class="search-form">
+                <label><img src="~/customer/images/icon-search.png"></label>
+                <input type="text" placeholder="Search...">
+            </div> <!-- .search-form -->
+
+            <div class="mobile-navigation"></div> <!-- .mobile-navigation -->
+        </div> <!-- .main-navigation -->
+        <div class="breadcrumbs">
+            <div class="container">
+                <a href="/Customer/Home/Index">Home</a>
+                <span>Cart</span>
+            </div>
+        </div>
+    </div> <!-- .container -->
+</div> <!-- .site-header -->
+
+<main class="main-content">
+    <div class="container">
+        <div class="page">
+            <section class="h-100">
+                <div class="container h-100 py-5">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col-lg-10 col-md-12">
+                            @foreach (var item in Model)
+                            {
+                                <div class="card rounded-3 mb-4 shadow-sm">
+                                    <div class="card-body p-4">
+                                        <div class="row align-items-center">
+
+                                            <!-- Image -->
+                                            <div class="col-md-2 text-center">
+                                                <img src="~/img/movie_imgs/@item.Movie.MainImg"
+                                                     class="img-fluid rounded-3"
+                                                     style="max-height:120px; object-fit:cover;"
+                                                     alt="@item.Movie.Name">
+                                            </div>
+
+                                            <!-- Name + Description -->
+                                            <div class="col-md-3">
+                                                <h2 class="fw-bold mb-2">@item.Movie.Name</h2>
+                                                <p class="text-muted mb-0 fs-6">
+                                                    @(item.Movie.Description.Length > 60 ? item.Movie.Description.Substring(0, 60) + "..." : item.Movie.Description)
+                                                </p>
+                                            </div>
+
+                                            <!-- Quantity -->
+                                            <div class="col-md-3 d-flex justify-content-center align-items-center">
+                                                <a href="/Customer/Cart/Decrement?movieId=@item.MovieId"
+                                                   class="btn btn-outline-secondary btn-md px-2">
+                                                    <i class="fas fa-minus"></i>
+                                                </a>
+
+                                                <input min="1"
+                                                       value="@item.Count"
+                                                       type="number"
+                                                       class="form-control text-center mx-2 fs-5"
+                                                       style="width:80px;" readonly />
+
+                                                <a href="/Customer/Cart/Increment?movieId=@item.MovieId"
+                                                   class="btn btn-outline-secondary btn-md px-2">
+                                                    <i class="fas fa-plus"></i>
+                                                </a>
+                                            </div>
+
+                                            <!-- Price -->
+                                            <div class="col-md-2 text-center">
+                                                @if (item.Movie.Price != item.listPrice)
+                                                {
+                                                    <div class="text-muted text-decoration-line-through small">
+                                                        @item.Movie.Price.ToString("c")
+                                                    </div>
+                                                    <div class="fw-bold fs-3 text-success">
+                                                        @item.listPrice.ToString("c")
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="fw-bold fs-3">
+                                                        @item.Movie.Price.ToString("c")
+                                                    </div>
+                                                }
+                                            </div>
+
+                                            <!-- Delete -->
+                                            <div class="col-md-1 text-end">
+                                                <a href="/Customer/Cart/Delete?movieId=@item.MovieId"
+                                                   class="btn btn-danger btn-delete">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="card mb-4 shadow-sm">
+                                <div class="card-body p-4">
+                                    <form method="post" asp-area="customer" asp-controller="Cart" asp-action="Index" class="d-flex">
+                                        <input type="text" name="code" value="@Context.Request.Query["code"]" class="form-control form-control-lg me-3" placeholder="Discount code" />
+                                        <button type="submit" class="btn btn-success btn-lg">APPLY</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <a href="/Customer/Cart/Pay" type="button" class="btn btn-success w-100 py-3 fs-4 fw-bold shadow">PROCEED TO PAY</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div> <!-- .container -->
+</main> <!-- .main-content -->
+@section Scripts {
+    <partial name="_NotificationPartial.cshtml" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const deleteButtons = document.querySelectorAll(".btn-delete");
+
+            deleteButtons.forEach(button => {
+                button.addEventListener("click", function (e) {
+                    e.preventDefault(); // stop normal navigation
+
+                    const url = this.getAttribute("href");
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "This action cannot be undone!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Yes, delete it!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                              title: "Deleted!",
+                              text: "Your file has been deleted.",
+                              icon: "success"
+                            });
+
+                            // Redirect to delete URL
+                            window.location.href = url;
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}

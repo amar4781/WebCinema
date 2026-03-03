@@ -1,0 +1,246 @@
+﻿@model MovieWithRelatedVM
+
+@{
+    ViewData["Title"] = "Details of Movies";
+}
+
+@section Scripts {
+    <partial name="_NotificationPartial.cshtml" />
+}
+
+<style>
+    /* نخلي العنصر الأساسي مرجع للـ dropdown */
+    .main-navigation .menu .has-dropdown {
+        position: relative;
+    }
+
+    /* شكل القائمة المنسدلة */
+    .main-navigation .menu .sub-menu {
+        position: absolute;
+        top: 120%;
+        left: 0;
+        background: #fff;
+        list-style: none;
+        padding: 10px 0;
+        margin: 0;
+        min-width: 180px;
+        border-radius: 4px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        display: none;
+        z-index: 999;
+    }
+
+        /* عناصر القائمة */
+        .main-navigation .menu .sub-menu li {
+            padding: 0;
+        }
+
+            .main-navigation .menu .sub-menu li a {
+                display: block;
+                padding: 8px 15px;
+                color: #666;
+                text-decoration: none;
+                font-size: 14px;
+            }
+
+                /* Hover */
+                .main-navigation .menu .sub-menu li a:hover {
+                    background: #f5f5f5;
+                    color: #2ecc71; /* نفس الأخضر بتاع التمبلت */
+                }
+
+    /* إظهار عند الـ hover */
+    .main-navigation .menu .has-dropdown:hover .sub-menu {
+        display: block;
+    }
+
+    /* نخلي العناصر تحت بعض */
+    .main-navigation .menu .sub-menu li {
+        display: block;
+        width: 100%;
+    }
+
+        /* نشيل أي تنسيق inline من اللينكات */
+        .main-navigation .menu .sub-menu li a {
+            display: block;
+            width: 100%;
+        }
+
+        .main-navigation .menu .sub-menu li:after {
+            display: none !important;
+        }
+</style>
+
+<div class="site-header">
+    <div class="container">
+        <div class="main-navigation">
+            <button class="toggle-menu"><i class="fa fa-bars"></i></button>
+            <ul class="menu">
+                <li class="menu-item home current-menu-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                <li class="menu-item has-dropdown">
+                    <a href="#">Categories</a>
+                    <ul class="sub-menu">
+                        @foreach (var item in Model.Categories)
+                        {
+                            <li><a href="/Customer/Home/Index?categoryId=@item.Id">@item.Name</a></li>
+                        }
+                    </ul>
+                </li>
+                <li class="menu-item"><a href="#">Promotions</a></li>
+                <li class="menu-item"><a href="#">PC</a></li>
+                <li class="menu-item"><a href="#">Playstation</a></li>
+                <li class="menu-item"><a href="#">Xbox</a></li>
+                <li class="menu-item"><a href="#">Wii</a></li>
+            </ul> <!-- .menu -->
+            <div class="search-form">
+                <label><img src="~/customer/images/icon-search.png"></label>
+                <input type="text" placeholder="Search...">
+            </div> <!-- .search-form -->
+
+            <div class="mobile-navigation"></div> <!-- .mobile-navigation -->
+        </div> <!-- .main-navigation -->
+    </div>
+</div>
+
+<div class="home-slider">
+    <ul class="slides">
+        <li data-bg-image="customer/dummy/slide-1.jpg">
+            <div class="container">
+                <div class="slide-content">
+                    <h2 class="slide-title">Kill Zone 3</h2>
+                    <small class="slide-subtitle">$190.00</small>
+
+                    <p>Perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur.</p>
+
+                    <a href="cart.html" class="button">Add to cart</a>
+                </div>
+
+                <img src="customer/dummy/game-cover-1.jpg" class="slide-image">
+            </div>
+        </li>
+        <li data-bg-image="customer/dummy/slide-2.jpg">
+            <div class="container">
+                <div class="slide-content">
+                    <h2 class="slide-title">Kill Zone 3</h2>
+                    <small class="slide-subtitle">$190.00</small>
+
+                    <p>Perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur.</p>
+
+                    <a href="cart.html" class="button">Add to cart</a>
+                </div>
+
+                <img src="customer/dummy/game-cover-2.jpg" class="slide-image">
+            </div>
+        </li>
+        <li data-bg-image="customer/dummy/slide-3.jpg">
+            <div class="container">
+                <div class="slide-content">
+                    <h2 class="slide-title">Kill Zone 3</h2>
+                    <small class="slide-subtitle">$190.00</small>
+
+                    <p>Perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur.</p>
+
+                    <a href="cart.html" class="button">Add to cart</a>
+                </div>
+
+                <img src="customer/dummy/game-cover-3.jpg" class="slide-image">
+            </div>
+        </li>
+    </ul> <!-- .slides -->
+</div> <!-- .home-slider -->
+
+<main class="main-content">
+    <div class="container">
+        <div class="page">
+
+            <div class="entry-content">
+                <div class="row">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="product-images">
+                            <figure class="large-image">
+                                <a href="dummy/image-1.jpg"><img src="~/img/movie_imgs/@Model.Movie.MainImg" alt=""></a>
+                            </figure>
+                            <div class="thumbnails">
+                                @foreach (var item in Model.MovieSubImgs)
+                                {
+                                    <a href="#"><img src="~/img/movie_imgs/sub_images/@item.SubImg" alt=""></a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-8">
+                        <h2 class="entry-title">@Model.Movie.Name</h2>
+                        <small class="price">@Model.Movie.Price.ToString("c")</small>
+
+                        <p>@Model.Movie.Description</p>
+
+                        <div class="addtocart-bar">
+                            <form asp-action="AddToCart" asp-controller="Cart">
+                                <input type="hidden" name="movieId" value="@Model.Movie.Id"/>
+                                <label for="#">Quantity</label>
+                                <input type="number" name="count"/>
+                                <button type="submit">Add to cart</button>
+                            </form>
+
+                            <div class="social-links square">
+                                <strong>Share</strong>
+                                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                                <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+                                <a href="#" class="pinterest"><i class="fa fa-pinterest"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section>
+                <header>
+                    <h2 class="section-title">Similiar Categories of Movie</h2>
+                </header>
+                <div class="product-list">
+                    @foreach (var item in Model.SameCategories)
+                    {
+                        <div class="product">
+                        <div class="inner-product">
+                            <div class="figure-image">
+                                <img src="~/img/movie_imgs/@item.MainImg" alt="@item.Name">
+                            </div>
+                            <h3 class="product-title"><a href="#">@item.Name</a></h3>
+                            <small class="price">@item.Price.ToString("c")</small>
+                            <p>@item.Description</p>
+                            <a href="#" class="button">Add to cart</a>
+                            <a href="/Customer/Home/Details/@item.Id" class="button muted">Read Details</a>
+                        </div>
+                    </div> <!-- .product -->
+                    }
+                </div> <!-- .product-list -->
+            </section>
+
+            <section>
+                <header>
+                    <h2 class="section-title">Related Movie</h2>
+                </header>
+                <div class="product-list">
+                    @foreach (var item in Model.RelatedMovies)
+                    {
+                    <div class="product">
+                        <div class="inner-product">
+                            <div class="figure-image">
+                                <img src="~/img/movie_imgs/@item.MainImg" alt="@item.Name">
+                            </div>
+                            <h3 class="product-title"><a href="#">@item.Name</a></h3>
+                            <small class="price">@item.Price.ToString("c")</small>
+                            <p>@item.Description</p>
+                            <a href="#" class="button">Add to cart</a>
+                            <a href="/Customer/Home/Details/@item.Id" class="button muted">Read Details</a>
+                        </div>
+                    </div> <!-- .product -->
+                    }
+                    </div> <!-- .product-list -->
+            </section>
+
+
+        </div>
+    </div> <!-- .container -->
+</main> <!-- .main-content -->
